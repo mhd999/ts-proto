@@ -13,8 +13,8 @@
     "test": "yarn jest -c jest.config.js --maxWorkers=2",
     "prettier": "prettier --write {src,tests}/**/*.ts",
     "prettier:check": "prettier --list-different {src,tests}/**/*.ts",
-    "prepare": "npm run build",
-    "install": "npm run build"
+    "prepare": "npm i && npm run build",
+    "install": "npm i && npm run build"
   },
   "files": [
     "build"
