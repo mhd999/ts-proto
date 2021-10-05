@@ -12,9 +12,7 @@
     "setup": "cd ./integration && ./pbjs.sh && ./update-bins.sh && ./codegen.sh",
     "test": "yarn jest -c jest.config.js --maxWorkers=2",
     "prettier": "prettier --write {src,tests}/**/*.ts",
-    "prettier:check": "prettier --list-different {src,tests}/**/*.ts",
-    "prepare": "npm i && npm run build",
-    "install": "npm i && npm run build"
+    "prettier:check": "prettier --list-different {src,tests}/**/*.ts"
   },
   "files": [
     "build"

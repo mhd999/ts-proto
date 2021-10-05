@@ -1,0 +1,37 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.generateTypeRegistry = void 0;
+const ts_poet_1 = require("ts-poet");
+const Writer = (0, ts_poet_1.imp)('Writer@protobufjs/minimal');
+const Reader = (0, ts_poet_1.imp)('Reader@protobufjs/minimal');
+function generateTypeRegistry(ctx) {
+    const chunks = [];
+    chunks.push(generateMessageType(ctx));
+    chunks.push((0, ts_poet_1.code) `
+    export type UnknownMessage = {$type: string};
+  `);
+    chunks.push((0, ts_poet_1.code) `
+    export const messageTypeRegistry = new Map<string, MessageType>();
+  `);
+    chunks.push((0, ts_poet_1.code) `${ctx.utils.DeepPartial.ifUsed}`);
+    return (0, ts_poet_1.joinCode)(chunks, { on: '\n\n' });
+}
+exports.generateTypeRegistry = generateTypeRegistry;
+function generateMessageType(ctx) {
+    const chunks = [];
+    chunks.push((0, ts_poet_1.code) `export interface MessageType<Message extends UnknownMessage = UnknownMessage> {`);
+    chunks.push((0, ts_poet_1.code) `$type: Message['$type'];`);
+    if (ctx.options.outputEncodeMethods) {
+        chunks.push((0, ts_poet_1.code) `encode(message: Message, writer?: ${Writer}): ${Writer};`);
+        chunks.push((0, ts_poet_1.code) `decode(input: ${Reader} | Uint8Array, length?: number): Message;`);
+    }
+    if (ctx.options.outputJsonMethods) {
+        chunks.push((0, ts_poet_1.code) `fromJSON(object: any): Message;`);
+        chunks.push((0, ts_poet_1.code) `toJSON(message: Message): unknown;`);
+    }
+    if (ctx.options.outputPartialMethods) {
+        chunks.push((0, ts_poet_1.code) `fromPartial(object: ${ctx.utils.DeepPartial}<Message>): Message;`);
+    }
+    chunks.push((0, ts_poet_1.code) `}`);
+    return (0, ts_poet_1.joinCode)(chunks, { on: '\n' });
+}
