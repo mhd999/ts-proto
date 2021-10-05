@@ -197,17 +197,6 @@ function generateClientStub(ctx: Context, sourceInfo: SourceInfo, serviceDesc: S
             request: ${inputType},
             callback: ${responseCallback},
           ): ${ClientUnaryCall};
-          ${methodDesc.formattedName}(
-            request: ${inputType},
-            metadata: ${Metadata},
-            callback: ${responseCallback},
-          ): ${ClientUnaryCall};
-          ${methodDesc.formattedName}(
-            request: ${inputType},
-            metadata: ${Metadata},
-            options: Partial<${CallOptions}>,
-            callback: ${responseCallback},
-          ): ${ClientUnaryCall};
         `);
       }
     }
